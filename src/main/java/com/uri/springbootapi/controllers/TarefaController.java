@@ -5,6 +5,7 @@ import com.uri.springbootapi.dtos.TarefaDTO;
 import com.uri.springbootapi.entities.Tarefa;
 import com.uri.springbootapi.services.TarefaService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/task")
+@RequestMapping(path = "/tasks")
 public class TarefaController {
 
     @Autowired
@@ -63,5 +64,15 @@ public class TarefaController {
         return ResponseEntity.status(sucessResponse.getHttpStatus()).body(sucessResponse);
     }
 
+    @PutMapping(path = "/{tarefaId}/finalizar")
+    public ResponseEntity<SucessResponse> finalizarTarefa(@PathVariable Long tarefaId) {
+        tarefaService.finalizarTarefa(tarefaId);
+        SucessResponse sucessResponse = SucessResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
+                .mensagem("Tarefa Finalizada!")
+                .objectId(tarefaId)
+                .build();
+        return ResponseEntity.status(sucessResponse.getHttpStatus()).body(sucessResponse);
+    }
 
 }

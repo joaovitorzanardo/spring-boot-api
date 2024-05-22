@@ -52,4 +52,11 @@ public class TarefaService {
         tarefaRepository.delete(tarefa);
     }
 
+    public void finalizarTarefa(Long tarefaId) {
+        Tarefa tarefa = tarefaRepository.findById(tarefaId)
+                .orElseThrow(TarefaNotFoundException::new);
+
+        tarefa.setFinalizada(true);
+        tarefaRepository.save(tarefa);
+    }
 }
